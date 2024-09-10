@@ -3,13 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terms of Service</title>
-    @vite('resources/js/app.js') <!-- Ensure Vite is included -->
+    <title>Dogfood Fitness</title>
+    @vite('resources/js/app.js') <!-- Include Vite bundle -->
 </head>
 <body>
-    <!-- Vue will mount to this div -->
     <div id="app">
-        <terms-of-service></terms-of-service> <!-- Vue component rendered here -->
+        <router-view></router-view> <!-- Vue Router will handle component rendering -->
     </div>
+
+    <!-- Pass the current path to Vue -->
+    <script>
+        window.routePath = "{{ Request::path() }}";  // Pass the current path to Vue
+    </script>
 </body>
 </html>
