@@ -11,7 +11,7 @@ Route::get('/privacy-policy', function () {
     return view('app');  // Serve the same Blade view for both pages
 });
 
+// Catch-all route to serve the Vue app, but send a 404 status code for unknown routes
 Route::get('/{any}', function () {
-    return view('app'); // Render the main Blade template
-})->where('any', '.*');  // This will match all routes
-
+    return response()->view('app', [], 404);  // Send a 404 status code if route does not exist
+})->where('any', '.*');
