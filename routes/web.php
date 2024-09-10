@@ -3,6 +3,10 @@
 use Illuminate\Support\Facades\Route;
 
 // routes/web.php
+Route::get('/', function () {
+    return view('app');
+});
+
 Route::get('/terms-of-service', function () {
     return view('app');
 });
