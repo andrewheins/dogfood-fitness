@@ -1,0 +1,62 @@
+# Laravel
+/vendor
+/node_modules
+/public/hot
+/public/storage
+/storage/*.key
+/storage/app/public
+/storage/debugbar
+/.idea
+/.vscode
+Homestead.yaml
+Homestead.json
+.env
+.env.backup
+.env.*.backup
+
+# Sail
+docker-compose.override.yml
+
+# Vite and NPM
+npm-debug.log
+yarn-error.log
+.pnpm-debug.log
+node_modules/
+dist/
+
+# MacOS-specific
+.DS_Store
+
+# Log files
+*.log
+*.log.*
+
+# Composer
+composer.lock
+
+# Laravel Vapor specific
+.vapor
+vapor.yml
+
+# Ignoring IDE specific files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Ignore compiled assets
+/public/js
+/public/css
+/public/mix-manifest.json
+/public/hot
+/public/build
+
+# Ignore SAIL generated services
+docker-compose.yml
+
+# Ignore debugging logs
+phpunit.result.cache
+phpunit.cache
+
+# Ignore Laravel Telescope files
+/storage/telescope
