@@ -4,6 +4,7 @@ import NotFound from './components/NotFound.vue';
 import Home from './components/Home.vue';
 import Header from './components/Header.vue';  // Import the Header component
 import Footer from './components/Footer.vue';  // Import the Footer component
+import Register from './components/Register.vue';  // Import the Register component
 
 // Helper function to convert route names with hyphens to PascalCase
 const toPascalCase = (str) => {
@@ -24,22 +25,29 @@ const loadComponent = async (name) => {
     }
 };
 
-// Define routes for Vue Router
 const routes = [
     {
         path: '/',
         name: 'home',
-        component: Home,  // Directly use the Home component for the root path
+        component: Home,
+    },
+    {
+        path: '/sign-up',
+        name: 'sign-up',
+        component: Register,  // Use Register component for the sign-up page
     },
     {
         path: '/:page',
         name: 'page',
-        component: (route) => loadComponent(route.params.page),  // Pass route param to dynamic loader
+        component: async () => {
+            const componentName = window.routePath;
+            return await loadComponent(componentName);
+        },
     },
     {
         path: '/:catchAll(.*)',
         name: 'not-found',
-        component: NotFound,  // Use the NotFound component for undefined routes
+        component: NotFound,
     }
 ];
 
