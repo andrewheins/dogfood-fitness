@@ -1,71 +1,23 @@
-import { createApp } from 'vue/dist/vue.esm-bundler';
-import { createRouter, createWebHistory } from 'vue-router';
-import NotFound from './components/NotFound.vue';
-import Home from './components/Home.vue';
-import Header from './components/Header.vue';  // Import the Header component
-import Footer from './components/Footer.vue';  // Import the Footer component
-import Register from './components/Register.vue';  // Import the Register component
+import './bootstrap';
+import '../css/app.css';
 
-// Helper function to convert route names with hyphens to PascalCase
-const toPascalCase = (str) => {
-    return str
-        .split('-')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join('');
-};
+import { createApp, h } from 'vue';
+import { createInertiaApp } from '@inertiajs/vue3';
+import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
+import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 
-// Function to dynamically import Vue components based on the PascalCase route
-const loadComponent = async (name) => {
-    try {
-        const componentName = toPascalCase(name);  // Convert the route to PascalCase
-        return await import(`./components/${componentName}.vue`);
-    } catch (error) {
-        console.error(`Component ${name}.vue not found. Loading NotFound component.`);
-        return NotFound;  // Return NotFound component if the dynamic import fails
-    }
-};
+const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
-const routes = [
-    {
-        path: '/',
-        name: 'home',
-        component: Home,
+createInertiaApp({
+    title: (title) => `${title} - ${appName}`,
+    resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
+    setup({ el, App, props, plugin }) {
+        return createApp({ render: () => h(App, props) })
+            .use(plugin)
+            .use(ZiggyVue)
+            .mount(el);
     },
-    {
-        path: '/sign-up',
-        name: 'sign-up',
-        component: Register,  // Use Register component for the sign-up page
+    progress: {
+        color: '#4B5563',
     },
-    {
-        path: '/:page',
-        name: 'page',
-        component: async () => {
-            const componentName = window.routePath;
-            return await loadComponent(componentName);
-        },
-    },
-    {
-        path: '/:catchAll(.*)',
-        name: 'not-found',
-        component: NotFound,
-    }
-];
-
-// Create Vue Router instance
-const router = createRouter({
-    history: createWebHistory(),
-    routes,
 });
-
-// Create Vue app instance
-const app = createApp({});
-
-// Register Header and Footer components globally
-app.component('header-component', Header);
-app.component('footer-component', Footer);
-
-// Use router in the app
-app.use(router);
-
-// Mount the Vue app to the DOM
-app.mount('#app');
