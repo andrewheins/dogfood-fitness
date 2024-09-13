@@ -25,7 +25,9 @@ import { Link } from '@inertiajs/vue3';
         </nav>
 
         <main class="flex-grow">
-            <slot></slot>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <slot></slot>
+            </div>
         </main>
 
         <footer class="bg-white border-t border-gray-100 py-4">
