@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\FitbitController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -12,16 +13,22 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-})->name('welcome');  // Add this name
+})->name('welcome');
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    return Inertia::render('Dashboard', [
+        'fitbitConnected' => auth()->user()->oauthTokens()->where('provider', 'fitbit')->exists(),
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    
+    Route::get('/fitbit/redirect', [FitbitController::class, 'redirect'])->name('fitbit.redirect');
+    Route::get('/fitbit/callback', [FitbitController::class, 'callback'])->name('fitbit.callback');
+    Route::post('/fitbit/disconnect', [FitbitController::class, 'disconnect'])->name('fitbit.disconnect');
 });
 
 Route::get('/terms-of-service', function () {
