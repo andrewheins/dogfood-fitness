@@ -3,7 +3,10 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "local:start": "./vendor/bin/sail up -d",
+        "local:serve": "ngrok http --domain=openly-popular-sparrow.ngrok-free.app 80",
+        "local:watch": "./vendor/bin/sail npm run dev"
     },
     "devDependencies": {
         "@inertiajs/vue3": "^1.0.0",
